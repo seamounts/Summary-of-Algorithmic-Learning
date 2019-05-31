@@ -45,9 +45,11 @@ T(n) = O(f(n))
 
 ##### 几种常见的时间复杂度实例
 - **常量阶 O(1)**
+  
   O(1)是常量阶时间复杂度表示方法，一般情况下，只要代码中不存在循环语句，递归语句，其代码复杂度就是O(1)
 
 - **对数阶 O(log^n^)、 O(nlog^n^)**
+  
   对数阶时间复杂度比较常见，如归并排序、快速排序的时间复杂度都是 O(nlog^n^)
 
 - **线性阶 O(n)**
@@ -120,7 +122,62 @@ T(n) = O(f(n))
 	- 处理头节点和尾节点时，代码是否正常工作
 
 ### 3⃣️ 栈
- 
+
+##### 概念
+操作符合 `先进后出` or `后进先出` 的线性表结构
+
+栈可以用数组实现，也可以用链表实现。用数组实现的栈称之为 `顺序栈`，用链表实现的栈的称之为 `链式栈`。
+
+如下 `顺序栈` 的实现实例 (基于go实现)：
+```go
+// 基于数组实现的顺序栈
+type Stack interface {
+  Push(string) bool
+  Pop() string
+}
+
+type OrderStack struct {
+  items [10]string
+  count int
+}
+
+// 入栈
+func (os *OrderStack) Push(item string) bool {
+  if os.count == len(os.items) {
+    return false
+  }
+  os.items[os.count] = item 
+  os.count++
+  return true
+}
+
+// 出栈
+func (os *OrderStack) Pop() string {
+  if os.count == 0 {
+    return ""
+  }
+  item := os.items[os.count-1]
+  os.count--
+  return item
+}
+```
+
+##### 栈的应用
+
+- 函数调用栈
+  
+- 表达式求值
+  
+  图解：
+
+  <img src="assets/表达式求值.jpg" width="500" hegiht="300" />
+  <!-- ![](assets/表达式求值.jpg) -->
+
+- 括号匹配
+  
+  依次扫描，将左括号放入栈中，遇到右括号则从栈顶取出一个左括号，如果匹配则继续扫描，如果扫描中不能匹配或者栈中有剩余数据，则说明为非法格式。
+
+
 
 ### 4⃣️ 队列
 
@@ -135,17 +192,16 @@ T(n) = O(f(n))
 参考代码实现：
 ```go
 func BubbleSort(datas []int) []int {
-	for i := 0; i < len(datas)-1; i++ {
-		for j := 0; j < len(datas)-1-i; j++ {
-			if datas[j] > datas[j+1] {
-				tmp := datas[j]
-				datas[j] = datas[j+1]
-				datas[j+1] = tmp
-			}
-		}
-
-	}
-	return datas
+    for i := 0; i < len(datas)-1; i++ {
+        for j := 0; j < len(datas)-1-i; j++ {
+            if datas[j] > datas[j+1] {
+                tmp := datas[j]
+                datas[j] = datas[j+1]
+                datas[j+1] = tmp
+            }
+        }
+    }
+    return datas
 }
 ```
 
@@ -153,27 +209,27 @@ func BubbleSort(datas []int) []int {
 
 ```go
 func InsertSort(datas []int) []int {
-	for i := 1; i < len(datas); i++ {
-		if datas[i] >= datas[i-1] {
-			continue
-		}
-		for j := 0; j < i; j++ {
-			if datas[i] < datas[j] {
-				tmp := datas[i]
-				k := i
-				for {
-					if k == j {
-						break
-					}
-					datas[k] = datas[k-1]
-					k = k - 1
-				}
-				datas[j] = tmp
-				break
-			}
-		}
-	}
-	return datas
+    for i := 1; i < len(datas); i++ {
+        if datas[i] >= datas[i-1] {
+            continue
+        }
+        for j := 0; j < i; j++ {
+            if datas[i] < datas[j] {
+                tmp := datas[i]
+                k := i
+                for {
+                    if k == j {
+                        break
+                    }
+                    datas[k] = datas[k-1]
+                    k = k - 1
+                }
+                datas[j] = tmp
+                break
+            }
+        }
+    }
+    return datas
 }
 
 ```
@@ -182,19 +238,18 @@ func InsertSort(datas []int) []int {
 
 ```go
 func SelectSort(datas []int) []int {
-
-	for i := 0; i < len(datas)-1; i++ {
-		minIndex := i
-		for j := i + 1; j < len(datas); j++ {
-			if datas[minIndex] > datas[j] {
-				minIndex = j
-			}
-		}
-		tmp := datas[i]
-		datas[i] = datas[minIndex]
-		datas[minIndex] = tmp
-	}
-	return datas
+    for i := 0; i < len(datas)-1; i++ {
+        minIndex := i
+        for j := i + 1; j < len(datas); j++ {
+            if datas[minIndex] > datas[j] {
+                minIndex = j
+            }
+        }
+        tmp := datas[i]
+        datas[i] = datas[minIndex]
+        datas[minIndex] = tmp
+    }
+    return datas
 }
 ```
 
@@ -248,30 +303,30 @@ func Merge(left, right []int) []int {
 
 ```go
 func QuickSort(datas []int) []int {
-	QuickSort_C(datas, 0, len(datas)-1)
-	return datas
+    QuickSort_C(datas, 0, len(datas)-1)
+    return datas
 }
 
 func QuickSort_C(datas []int, p, r int) {
-	if p >= r {
-		return
-	}
-	pivot := datas[r]
-	i := p
-	for j := p; j < r; j++ {
-		if datas[j] < pivot {
-			tmp := datas[j]
-			datas[j] = datas[i]
-			datas[i] = tmp
-			i++
-		}
-	}
-	tmp := datas[i]
-	datas[i] = datas[r]
-	datas[r] = tmp
+    if p >= r {
+        return
+    }
+    pivot := datas[r]
+    i := p
+    for j := p; j < r; j++ {
+        if datas[j] < pivot {
+            tmp := datas[j]
+            datas[j] = datas[i]
+            datas[i] = tmp
+            i++
+        }
+    }
+    tmp := datas[i]
+    datas[i] = datas[r]
+    datas[r] = tmp
 
-	QuickSort_C(datas, 0, i-1)
-	QuickSort_C(datas, i+1, r)
+    QuickSort_C(datas, 0, i-1)
+    QuickSort_C(datas, i+1, r)
 }
 ```
 
