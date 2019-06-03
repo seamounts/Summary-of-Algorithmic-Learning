@@ -20,9 +20,9 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 		fmt.Println("rootNode == nil")
 		return 0.0
 	}
-	fmt.Println("----------", rootNode.Key, rootNode.Left.Key, rootNode.Right.Key)
-	fmt.Println("----------", rootNode.Right.Left.Key, rootNode.Right.Right.Key)
-	fmt.Println("----------height", height(rootNode), height(rootNode.Left), height(rootNode.Right))
+	// fmt.Println("----------", rootNode.Key, rootNode.Left.Key, rootNode.Right.Key)
+	// fmt.Println("----------", rootNode.Right.Left.Key, rootNode.Right.Right.Key)
+	// fmt.Println("----------height", height(rootNode), height(rootNode.Left), height(rootNode.Right))
 
 	if height(rootNode.Left) == height(rootNode.Right) {
 		return float64(rootNode.Key)
@@ -110,5 +110,9 @@ func height(n *TNode) int {
 	if n == nil {
 		return -1
 	}
+
+	a = []string
+
+	
 	return n.Height
 }
